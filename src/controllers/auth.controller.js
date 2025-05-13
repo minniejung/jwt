@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const { findUserByUserId, verifyUser } = require('../services/auth.service');
-const { secretKey } = require('../config');
+const jwt = require("jsonwebtoken");
+const { findUserByUserId, verifyUser } = require("../services/auth.service");
+const { secretKey } = require("../config");
 
 module.exports = {
   login: async (req, res) => {
@@ -12,7 +12,12 @@ module.exports = {
             토큰을 생성하여
             200 응답코드와 함께 token의 값으로 토큰을 반환
     */
-    return res.json('not implemented');
+    const user = await verifyUser(userId, password);
+    if (!user) {
+      return res.status(401).json({ message: "등록되지 않은 유저입니다." });
+    }
+    const token = jwt.sign({ userId }, secretKey);
+    return res.status(200).json({ token });
   },
 
   me: async (req, res) => {
@@ -22,6 +27,14 @@ module.exports = {
         200 응답코드와 함께 user의 값으로 유저 정보를 반환합니다.
         - 반환해야 하는 데이터 양식은 테스트 코드를 통해 확인합니다.
     */
-    return res.json('not implemented');
+
+    const user = await findUserByUserId(userId);
+    if (!user) {
+      return res.status(402).json({ message: "유저 정보를 찾을 수 없습니다." });
+    }
+
+    console.log("user", user);
+
+    return res.status(200).json({ user });
   },
 };

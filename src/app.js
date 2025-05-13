@@ -2,7 +2,7 @@ const express = require('express');
 const authRoutes = require('./routes/auth.route');
 
 const app = express();
-const port = 3000;
+const port = 9090;
 
 app.use(express.json());
 
