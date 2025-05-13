@@ -3,13 +3,11 @@ const { secretKey } = require("../config");
 
 module.exports = {
   auth: (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    const token = req.headers.authorization;
 
-    if (!authHeader) {
+    if (!token) {
       return res.status(401).json({ message: "토큰이 없습니다." });
     }
-
-    const token = authHeader.split(" ")[1];
 
     try {
       /*

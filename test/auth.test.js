@@ -39,9 +39,7 @@ describe("Auth Controller", () => {
       issuer: "jwt-issuer",
     });
 
-    const res = await request(app)
-      .get("/auth/me")
-      .set("Authorization", `Bearer ${token}`);
+    const res = await request(app).get("/auth/me").set("Authorization", token);
 
     expect(res.statusCode).toBe(200);
     expect(res.body.user).toHaveProperty("userId", "alice01");
